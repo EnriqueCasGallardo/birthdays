@@ -10,11 +10,12 @@ router.get("/", function(req, res, next) {
           name,
           birth_date,
           EXTRACT(YEAR FROM age(birth_date)) AS age
+          EXTRACT(DAY FROM age(birth_date)) AS day
       FROM
           "People"
       ORDER BY
           CASE
-            WHEN EXTRACT(DAY FROM age(birth_date)) = 31 THEN 1,
+            WHEN day = 31 THEN 1,
             ELSE END DESC,`
       {
         model: models.Person
