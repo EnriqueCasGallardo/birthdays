@@ -15,7 +15,7 @@ router.get("/", function(req, res, next) {
           "People"
       ORDER BY
           CASE
-            WHEN day = 31 THEN 1,
+            WHEN age = 51 THEN 1,
             ELSE END DESC,`
       {
         model: models.Person
