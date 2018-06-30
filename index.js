@@ -13,7 +13,9 @@ router.get("/", function(req, res, next) {
       FROM
           "People"
       ORDER BY
-          birth_date DESC`,
+          CASE
+            WHEN DAY(GETDATE()) = 26 THEN 1,
+            ELSE END DESC,`
       {
         model: models.Person
       }
