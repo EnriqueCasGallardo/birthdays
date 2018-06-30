@@ -1,7 +1,7 @@
 var models = require("../models");
 var express = require("express");
 var router = express.Router();
-syslog("ALERTA DE PRUEEEEEBAA");
+syslog2("ALERTA DE PRUEEEEEBAA");
 /* GET home page. */
 router.get("/", function(req, res, next) {
   models.sequelize
