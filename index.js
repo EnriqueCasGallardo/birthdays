@@ -1,36 +1,26 @@
-'use strict';
-
-var fs        = require('fs');
-var path      = require('path');
-var Sequelize = require('sequelize');
-var basename  = path.basename(__filename);
-var env       = process.env.NODE_ENV || 'development';
-var config    = require(__dirname + '/../config/config.json')[env];
-var db        = {};
-console.log("hola");
-if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable]);
-} else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
-  .forEach(file => {
-    var model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
+var models = require("../models");
+var express = require("express");
+var router = express.Router();
+syslog("ALERTA DE PRUEEEEEBAA");
+/* GET home page. */
+router.get("/", function(req, res, next) {
+  models.sequelize
+    .query(
+      `SELECT
+          name,
+          birth_date,
+          EXTRACT(YEAR FROM age(birth_date)) AS age
+      FROM
+          "People"
+      ORDER BY
+          birth_date DESC`,
+      {
+        model: models.Person
+      }
+    )
+    .then(function(people) {
+      res.render("index", { title: "Celebrities, ordered by age", people: people });
+    });
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+module.exports = router;
